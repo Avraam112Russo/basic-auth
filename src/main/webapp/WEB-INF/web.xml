@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>com.l4cky_russ1ano.webxmlexample.TestWork</servlet-class>
+        <init-param>
+            <param-name>Employee</param-name>
+            <param-value>Sasha</param-value>
+        </init-param>
+        <init-param>
+            <param-name>Employee2</param-name>
+            <param-value>Dasha</param-value>
+        </init-param>
+        <!-- props say that this servlet will be first init -->
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>demo</servlet-name>
+        <jsp-file>/testUrl.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>demo</servlet-name>
+        <url-pattern>/testUrl/*</url-pattern>
+    </servlet-mapping>
+
+
+
+
+
+    <!--before setup this setting we should define users and roles in file tomcat/conf/userstomcat -->
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Some Realm name</realm-name>
+    </login-config>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Security</web-resource-name>
+            <url-pattern>/restricted/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+<!--    <error-page>-->
+<!--        <location>/errorPage.jsp</location>-->
+<!--        <error-code>404</error-code>-->
+<!--    </error-page>-->
+    <error-page>
+        <location>/errorPage.jsp</location>
+        <exception-type>jakarta.servlet.ServletException</exception-type>
+        <!-- our application throw some exception(for example ServletException) and therefore we redirect on /errorPage.jsp  -->
+    </error-page>
+    <context-param>
+        <!-- context(container) for all servlets in our application -->
+        <param-name>contextParamName</param-name>
+        <param-value>contextParamValue</param-value>
+    </context-param>
+
+    <welcome-file-list>
+        <welcome-file>welcome.jsp</welcome-file>
+    </welcome-file-list>
+    <session-config>
+        <cookie-config>
+            <max-age>1800</max-age>
+        </cookie-config>
+        <!-- life time session in seconds or minutes-->
+        <session-timeout>20</session-timeout>
+    </session-config>
+</web-app>
